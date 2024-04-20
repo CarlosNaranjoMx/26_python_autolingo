@@ -777,15 +777,17 @@ def learn_bot():
         driver.get("https://www.duolingo.com/learn")
         skills = WebDriverWait(driver, 20).until(
             EC.presence_of_all_elements_located(
-                (By.XPATH, '//div[@data-test="skill"]'))
+                (By.XPATH, '//div[@data-test="skill-path"]'))
         )
+
+        print("skills :",skills)
 
         completed_skill = False
 
         for skill in skills:
             try:
                 start_skill = skill.find_element(By.XPATH,
-                                                 '//a[@data-test="start-button"]')
+                                                 '//button[@data-test="skill-path-level-0 skill-path-level-skill"]')
                 start_skill.click()
                 complete_skill()
                 completed_skill = True
@@ -797,6 +799,8 @@ def learn_bot():
 
             except WebDriverException:
                 pass
+
+            # a data-test skill-path-state-active skill-path-unit-test-0
 
             # search for g tag with grey circle fill
             # cannot search for skills with level < 5 because some skills cap at level 1
